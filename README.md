@@ -26,7 +26,7 @@ $ npm start
 
 ## Demo
 
-
+![demo](https://github.com/chokcoco/swiper_fade/tree/master/images/2.gif)
 
 ##License
 
