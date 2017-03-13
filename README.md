@@ -1,4 +1,4 @@
-## swiper_fade
+# swiper_fade
 
 一款样式特殊小巧的移动端滑动插件。
 
