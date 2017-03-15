@@ -1,4 +1,4 @@
-##iswiper -- 移动端滑动插件
+# swiper_fade
 
 一款样式特殊小巧的移动端滑动插件。
 
@@ -6,6 +6,7 @@
 
 - 支持手势滑动
 - 支持顺逆时针
+- 支持 `cubic-bezier()` 各类缓动函数
 
 ## Usage
 
@@ -26,7 +27,7 @@ $ npm start
 
 ## Demo
 
-
+![demo](https://github.com/chokcoco/swiper_fade/blob/master/images/2.gif)
 
 ##License
 
