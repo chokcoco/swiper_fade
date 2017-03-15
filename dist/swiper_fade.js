@@ -34,8 +34,8 @@
             loopTime: 3000,
             // 缓动函数，默认为 linear，可传入 cubic-bezier()
             easing: "linear",
-            // 转向，默认为顺时针，可选逆时针 'counterclockwise'
-            turn: 'clockwise'
+            // 转向，默认为逆时针，可选顺时针 'counterclockwise'
+            turn: 'counterclockwise'
         };
 
         this._options = extend(this._default, options);
@@ -131,13 +131,10 @@
         var me = this;
         var duration = this._options.duration + 'ms ' + this._options.easing;
 
-        for (var i = 0; i < 3; i++) {
-            (function (j) {
-                var elem = me.$items[j];
-                elem.style['-webkit-transition'] = duration;
-                elem.style.transition = duration;
-            })(i)
-        }
+        Array.prototype.slice.call(this.$items).forEach(function(elem) {
+            elem.style['-webkit-transition'] = duration;
+            elem.style.transition = duration;
+        })
     };
 
     /**
@@ -166,17 +163,14 @@
 
         this._setCssParams();
 
-        for (var i = 0; i < 3; i++) {
-            (function (j) {
-                var elem = me.$items[j];
-                var curState = elem.getAttribute('class').split(' ')[1];
-                var curCssName = '_' + curState + 'TransformCss';
+        Array.prototype.slice.call(this.$items).forEach(function(elem) {
+            var curState = elem.getAttribute('class').split(' ')[1];
+            var curCssName = '_' + curState + 'TransformCss';
 
-                for (var key in me[curCssName]) {
-                    me['$' + curState + 'Elem'].style[key] = me[curCssName][key];
-                }
-            })(i);
-        }
+            for (var key in me[curCssName]) {
+                me['$' + curState + 'Elem'].style[key] = me[curCssName][key];
+            }
+        })
     };
 
     /**
@@ -261,25 +255,19 @@
             }
         }, false);
 
+        Array.prototype.slice.call(this.$items).forEach(function(elem) {
+            elem.addEventListener('webkitTransitionEnd', function (e) {
+                var propertyName = e.propertyName;
 
-        // add event listen to every li
-        for (var i = 0; i < 3; i++) {
-            (function (j) {
-                var elem = me.$items[j];
+                if (propertyName === "transform") {
+                    var curState = elem.getAttribute('class').split(' ')[1];
 
-                elem.addEventListener('webkitTransitionEnd', function (e) {
-                    var propertyName = e.propertyName;
-
-                    if (propertyName === "transform") {
-                        var curState = elem.getAttribute('class').split(' ')[1];
-
-                        me._classChange(curState);
-                        me._count++;
-                        me._domSelectorReset();
-                    }
-                }, false);
-            })(i)
-        }
+                    me._classChange(curState);
+                    me._count++;
+                    me._domSelectorReset();
+                }
+            }, false);
+        });
     };
 
     /**

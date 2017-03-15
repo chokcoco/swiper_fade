@@ -25,6 +25,7 @@
           transform: scale(0.9) translateX(-10px);
   -webkit-transform-origin: left center;
           transform-origin: left center;
+  opacity: 0.5;
   z-index: 10;
 }
 .swiper .prev {
@@ -32,5 +33,6 @@
           transform: scale(0.9) translateX(10px);
   -webkit-transform-origin: right center;
           transform-origin: right center;
+  opacity: 0.5;
   z-index: 1;
 }
