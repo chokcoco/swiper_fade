@@ -12,7 +12,7 @@
      * @constructor
      */
     function Swiper(options) {
-        this.version = '1.0.0';
+        this.version = '1.1.0';
         this._default = {
             // 容器
             container: '.swiper',
@@ -25,13 +25,13 @@
             // prev
             prev: '.prev',
             // 滑动切换距离阀值
-            threshold: 30,
+            threshold: 50,
             // 切换动画时间
             duration: 500,
             // 自动切换，默认为 false，自动切换必须 infinite:true
             autoSwitch: true,
             // 切换间隔
-            loopTime: 3000,
+            loopTime: 5000,
             // 缓动函数，默认为 linear，可传入 cubic-bezier()
             easing: "linear",
             // 转向，默认为逆时针，可选顺时针 'counterclockwise'
@@ -53,6 +53,7 @@
         this._marqueeInterval = null;
         this._isIntervene = false;
         this._defaultTurn = this._options.turn;
+        this._isAnimate = false;
 
         this._bind();
         this._init();
@@ -60,7 +61,6 @@
         if(this._options.autoSwitch) {
             this._marquee();
         }
-        
     }
 
     /**
@@ -128,6 +128,7 @@
      * @private
      */
     Swiper.prototype._init = function () {
+        
         var me = this;
         var duration = this._options.duration + 'ms ' + this._options.easing;
 
@@ -160,10 +161,10 @@
         var me = this;
 
         this._lock = true;
-
         this._setCssParams();
 
-        Array.prototype.slice.call(this.$items).forEach(function(elem) {
+        Array.prototype.slice.call(me.$items).forEach(function(elem) {
+            
             var curState = elem.getAttribute('class').split(' ')[1];
             var curCssName = '_' + curState + 'TransformCss';
 
@@ -212,9 +213,10 @@
     Swiper.prototype._bind = function () {
         var me = this;
 
-        this.$container.addEventListener('touchstart', function (e) {
+        this.$container.addEventListener('touchstart', function (e) { 
             e.stopPropagation();
-
+            e.preventDefault();
+               
             if (me._lock) {
                 return;
             }
@@ -223,8 +225,14 @@
 
         }, false);
 
+        this.$container.addEventListener('touchmove', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        })
+
         this.$container.addEventListener('touchend', function (e) {
             e.stopPropagation();
+            e.preventDefault();
 
             if (me._lock) {
                 return;
@@ -273,9 +281,10 @@
     /**
      * something reset
      */
-    Swiper.prototype._domSelectorReset = function () {
-        if (this._count == 3) {
+    Swiper.prototype._domSelectorReset = function (flag) {
+        flag = flag || 0;
 
+        if (this._count == 3 || flag) {
             this.$activeElem = this.$container.querySelector(this._options.active);
             this.$nextElem = this.$container.querySelector(this._options.next);
             this.$prevElem = this.$container.querySelector(this._options.prev);
@@ -287,6 +296,7 @@
             // open the auto loop again
             if (this._isIntervene && this._options.autoSwitch) {
                 this._marquee();
+                this._isIntervene = false;
             }
         }
     }
