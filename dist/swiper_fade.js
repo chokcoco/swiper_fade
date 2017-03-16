@@ -31,10 +31,10 @@
             // 自动切换，默认为 false，自动切换必须 infinite:true
             autoSwitch: true,
             // 切换间隔
-            loopTime: 5000,
+            loopTime: 3000,
             // 缓动函数，默认为 linear，可传入 cubic-bezier()
             easing: "linear",
-            // 转向，默认为逆时针，可选顺时针 'counterclockwise'
+            // 转向，默认为逆时针 clockwise，可选顺时针 'counterclockwise'
             turn: 'counterclockwise'
         };
 
@@ -53,7 +53,6 @@
         this._marqueeInterval = null;
         this._isIntervene = false;
         this._defaultTurn = this._options.turn;
-        this._isAnimate = false;
 
         this._bind();
         this._init();
@@ -128,7 +127,6 @@
      * @private
      */
     Swiper.prototype._init = function () {
-        
         var me = this;
         var duration = this._options.duration + 'ms ' + this._options.easing;
 
