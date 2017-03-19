@@ -29,6 +29,6 @@ $ npm start
 
 ![demo](https://github.com/chokcoco/swiper_fade/blob/master/images/2.gif)
 
-##License
+## License
 
 MIT
